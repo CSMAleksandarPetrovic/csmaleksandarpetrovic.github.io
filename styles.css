@@ -176,3 +176,58 @@ footer a{color:var(--muted)}
 footer a:hover{color:var(--blue)}
 
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+
+/* ================= polish pass ================= */
+/* softer cards with gentle depth and hover lift */
+.num,.step,.cert,.aside-card{
+  box-shadow:0 1px 2px rgba(11,37,69,.04);
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.num:hover,.step:hover,.cert:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(11,37,69,.08);
+}
+figure.chart{box-shadow:0 1px 2px rgba(11,37,69,.04)}
+
+/* hero gets a very light blue field so the page opens with color */
+.hero{
+  background:linear-gradient(180deg,var(--blue-wash) 0%,var(--bg) 88%);
+  border-bottom:1px solid var(--line);
+}
+.page-head{
+  background:linear-gradient(180deg,var(--blue-wash) 0%,var(--bg) 92%);
+  border-bottom:1px solid var(--line);
+  margin-bottom:6px;
+}
+.status{box-shadow:0 1px 2px rgba(11,37,69,.05)}
+.status .pulse{box-shadow:0 0 0 3px rgba(27,127,92,.15)}
+
+/* nav: subtle translucency when sticky */
+nav{background:rgba(253,253,251,.92);backdrop-filter:blur(8px)}
+
+/* buttons: slight depth, pressed state */
+.btn{box-shadow:0 1px 2px rgba(11,37,69,.12);transition:background .15s,transform .1s}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{box-shadow:none}
+
+/* section rhythm: a touch more air */
+section{padding:56px 0}
+.sec-title{margin-bottom:32px}
+
+/* tint sections lose harsh borders, keep soft separation */
+section.tint{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* experience rows: hover cue */
+.job{transition:background .15s}
+.job:hover h3{color:var(--blue-dark)}
+
+/* tags feel tappable */
+.tag{transition:background .15s,border-color .15s}
+.tag:hover{background:#DFEBFA;border-color:#A9C6EC}
+
+/* contact box: subtle inner ring */
+.contact-box{box-shadow:0 10px 30px rgba(11,37,69,.18)}
+
+/* selection color */
+::selection{background:#CFE1F8;color:var(--navy)}
