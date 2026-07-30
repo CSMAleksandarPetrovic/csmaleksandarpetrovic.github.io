@@ -1,250 +1,263 @@
 (function () {
   "use strict";
 
-  const STORAGE_KEY = "ap-portfolio-chat-v2";
   const EMAIL = "aleksandarpetrovicbabic@gmail.com";
+  let lang = "en";
+  let activeView = { type: "home" };
 
-  const copy = {
+  const ui = {
     en: {
-      launcher: "Ask Aleksandar AI",
-      title: "Aleksandar AI",
-      subtitle: "CV-powered portfolio guide",
-      greeting: "Hi — I’m Aleksandar’s portfolio assistant. I can show his measurable results, explain his Customer Success work, or evaluate his fit for a role.",
-      placeholder: "Ask about experience…",
-      close: "Close chat",
-      open: "Open Aleksandar’s portfolio assistant",
-      send: "Send question",
-      voice: "Ask by voice",
+      launcher: "Explore my profile",
+      title: "Aleksandar’s Portfolio Guide",
+      subtitle: "Experience, results, skills & role fit",
+      intro: "What would you like to explore?",
+      introNote: "Choose a topic for a concise, evidence-based overview.",
+      searchLabel: "Search this portfolio",
+      searchPlaceholder: "Try “retention”, “tools” or “education”…",
+      back: "All topics",
       source: "Source",
-      menu: "Main menu",
-      menuPrompt: "What would you like to explore?",
-      fitPrompt: "Choose the closest role. I’ll compare it with evidence from Aleksandar’s CV and portfolio.",
-      interviewPrompt: "Choose an interview question for a concise, recruiter-ready answer.",
-      languageChanged: "Language changed to English.",
-      fallback: "I don’t have a reliable answer to that in Aleksandar’s CV or portfolio. Try the guided menu, or contact him directly.",
-      voiceUnavailable: "Voice input is not supported by this browser.",
-      voiceError: "I couldn’t capture that. Please type the question instead.",
-      pageSuggestions: {
-        index: [["Why hire Aleksandar?", "topic:hire"], ["Show the numbers", "topic:metrics"], ["Churn case study", "topic:churn"], ["Check role fit", "command:fit"]],
-        experience: [["Biggest achievement", "topic:churn"], ["At-risk accounts", "topic:retention"], ["Onboarding experience", "topic:onboarding"], ["Check role fit", "command:fit"]],
-        skills: [["ChurnZero expertise", "topic:churnzero"], ["Full tool stack", "topic:tools"], ["Qualifications", "topic:education"], ["Check role fit", "command:fit"]],
-        contact: [["Availability", "topic:availability"], ["Email Aleksandar", "command:contact"], ["Download CV", "link:Aleksandar-Petrovic-CV.pdf"], ["Main menu", "command:menu"]]
-      }
+      close: "Close portfolio guide",
+      open: "Open Aleksandar’s portfolio guide",
+      notFoundTitle: "That topic isn’t covered yet",
+      notFound: "This guide only uses verified information from Aleksandar’s CV and portfolio. Try another search, view the CV, or contact him directly.",
+      fitIntro: "Choose the closest position to see an evidence-based fit assessment.",
+      fitTitle: "Check role fit",
+      results: "Results",
+      caseStudy: "Case study",
+      systems: "Systems",
+      recruiter: "Recruiter",
+      experience: "Experience",
+      nextStep: "Next step",
+      viewExperience: "View experience",
+      viewSkills: "View skills",
+      downloadCv: "Download CV",
+      sendEmail: "Send email",
+      openLinkedIn: "Open LinkedIn"
     },
     sr: {
-      launcher: "Pitaj Aleksandar AI",
-      title: "Aleksandar AI",
-      subtitle: "Portfolio vodič zasnovan na CV-ju",
-      greeting: "Zdravo — ja sam Aleksandrov portfolio asistent. Mogu da prikažem njegove rezultate, objasnim Customer Success iskustvo ili procenim podudaranje sa određenom pozicijom.",
-      placeholder: "Pitaj o iskustvu…",
-      close: "Zatvori razgovor",
-      open: "Otvori Aleksandrov portfolio asistent",
-      send: "Pošalji pitanje",
-      voice: "Postavi pitanje glasom",
+      launcher: "Istraži moj profil",
+      title: "Aleksandrov portfolio vodič",
+      subtitle: "Iskustvo, rezultati, veštine i pozicije",
+      intro: "Šta želiš da istražiš?",
+      introNote: "Izaberi temu za kratak pregled zasnovan na dokazima.",
+      searchLabel: "Pretraži portfolio",
+      searchPlaceholder: "Probaj „retention“, „alati“ ili „obrazovanje“…",
+      back: "Sve teme",
       source: "Izvor",
-      menu: "Glavni meni",
-      menuPrompt: "Šta želiš da istražiš?",
-      fitPrompt: "Izaberi najbližu poziciju. Uporediću je sa dokazima iz Aleksandrovog CV-ja i portfolija.",
-      interviewPrompt: "Izaberi pitanje za intervju i dobićeš kratak odgovor namenjen regruteru.",
-      languageChanged: "Jezik je promenjen na srpski.",
-      fallback: "Za to nemam pouzdan odgovor u Aleksandrovom CV-ju ili portfoliju. Izaberi temu iz menija ili ga kontaktiraj direktno.",
-      voiceUnavailable: "Ovaj browser ne podržava glasovni unos.",
-      voiceError: "Nisam uspeo da prepoznam govor. Unesi pitanje tekstom.",
-      pageSuggestions: {
-        index: [["Zašto zaposliti Aleksandra?", "topic:hire"], ["Prikaži rezultate", "topic:metrics"], ["Churn studija slučaja", "topic:churn"], ["Proveri podudaranje", "command:fit"]],
-        experience: [["Najveći rezultat", "topic:churn"], ["Rizični klijenti", "topic:retention"], ["Onboarding iskustvo", "topic:onboarding"], ["Proveri podudaranje", "command:fit"]],
-        skills: [["ChurnZero stručnost", "topic:churnzero"], ["Svi alati", "topic:tools"], ["Obrazovanje", "topic:education"], ["Proveri podudaranje", "command:fit"]],
-        contact: [["Dostupnost", "topic:availability"], ["Pošalji mejl", "command:contact"], ["Preuzmi CV", "link:Aleksandar-Petrovic-CV.pdf"], ["Glavni meni", "command:menu"]]
-      }
+      close: "Zatvori portfolio vodič",
+      open: "Otvori Aleksandrov portfolio vodič",
+      notFoundTitle: "Ta tema još nije pokrivena",
+      notFound: "Ovaj vodič koristi samo proverene podatke iz Aleksandrovog CV-ja i portfolija. Probaj drugu pretragu, pogledaj CV ili ga kontaktiraj direktno.",
+      fitIntro: "Izaberi najbližu poziciju za procenu zasnovanu na dokazima.",
+      fitTitle: "Proveri podudaranje",
+      results: "Rezultati",
+      caseStudy: "Studija slučaja",
+      systems: "Sistemi",
+      recruiter: "Za regrutere",
+      experience: "Iskustvo",
+      nextStep: "Sledeći korak",
+      viewExperience: "Pogledaj iskustvo",
+      viewSkills: "Pogledaj veštine",
+      downloadCv: "Preuzmi CV",
+      sendEmail: "Pošalji mejl",
+      openLinkedIn: "Otvori LinkedIn"
     }
   };
 
-  const knowledge = [
-    {
-      id: "overview",
-      keywords: ["who is aleksandar", "about aleksandar", "summary", "overview", "tell me about", "background", "ko je aleksandar", "predstavi", "iskustvo"],
-      source: "CV · About page",
-      en: "Aleksandar Petrović is a Senior Customer Success Manager with 3.5 years in B2B SaaS retention and growth, preceded by nine years of remote client-facing work. He combines hands-on account management with CS operations and ChurnZero administration.",
-      sr: "Aleksandar Petrović je Senior Customer Success Manager sa 3,5 godine iskustva u B2B SaaS retentionu i rastu, nakon devet godina rada sa klijentima na daljinu. Spaja praktično vođenje naloga sa CS operacijama i ChurnZero administracijom."
-    },
-    {
-      id: "hire",
-      keywords: ["why hire", "strength", "best fit", "value", "candidate", "what makes", "why aleksandar", "zasto zaposliti", "prednost", "kandidat"],
+  const topics = {
+    metrics: {
+      menuGroup: "results",
+      menuTitle: { en: "Key numbers", sr: "Ključni brojevi" },
+      title: { en: "Measurable results", sr: "Merljivi rezultati" },
+      text: {
+        en: "Churn reduced from 26% to 13% in six months. $370K in expansion revenue. 95%+ retention across 700+ accounts. 400+ onboarding, enablement, and strategy calls. Customer Health Scores improved by 50%.",
+        sr: "Churn smanjen sa 26% na 13% za šest meseci. $370K expansion prihoda. Retention iznad 95% na portfoliju od 700+ naloga. Više od 400 onboarding, enablement i strategy poziva. Customer Health Score poboljšan za 50%."
+      },
       source: "CV · Portfolio results",
-      en: "Aleksandar combines measurable retention results with strong systems thinking: churn reduced from 26% to 13% in six months, 95%+ retention, $370K in expansion revenue, 400+ onboarding and strategy calls, and scalable journeys, playbooks, alerts, and health scores.",
-      sr: "Aleksandar spaja merljive retention rezultate sa sistemskim razmišljanjem: churn je smanjio sa 26% na 13% za šest meseci, održao retention iznad 95%, ostvario $370K expansion prihoda, održao 400+ onboarding i strategy poziva i izgradio skalabilne journey-je, playbookove, alarme i health score modele."
+      keywords: ["metrics", "numbers", "results", "achievement", "kpi", "95", "370", "700", "400", "rezultati", "brojevi", "dostignuca"],
+      actions: ["experience", "cv"]
     },
-    {
-      id: "metrics",
-      keywords: ["metrics", "numbers", "results", "achievements", "kpi", "show the numbers", "rezultati", "brojevi", "dostignuca"],
-      source: "CV · Portfolio results",
-      en: "Key results: churn 26% → 13% in six months; $370K expansion revenue; 95%+ retention across 700+ accounts; 400+ onboarding, enablement, and strategy calls; Customer Health Scores improved by 50%; 15+ journeys and 20 automated playbooks designed or redesigned.",
-      sr: "Ključni rezultati: churn 26% → 13% za šest meseci; $370K expansion prihoda; retention iznad 95% na portfoliju od 700+ naloga; 400+ onboarding, enablement i strategy poziva; Customer Health Score poboljšan za 50%; dizajnirano ili redizajnirano 15+ journey-ja i 20 automatizovanih playbookova."
-    },
-    {
-      id: "churn",
-      keywords: ["churn", "26", "13", "retention project", "save conversation", "at risk", "risk alert", "studija slucaja", "smanjio churn"],
+    churn: {
+      menuGroup: "caseStudy",
+      menuTitle: { en: "Churn 26% → 13%", sr: "Churn 26% → 13%" },
+      title: { en: "The churn case study", sr: "Churn studija slučaja" },
+      text: {
+        en: "After taking ownership of retention in March 2024, Aleksandar reduced churn from 26% to 13% within six months. The motion combined segmentation, early-warning risk alerts, proactive outreach, tailored Success Plans, and structured talk tracks for save conversations.",
+        sr: "Nakon što je u martu 2024. preuzeo retention, Aleksandar je za šest meseci smanjio churn sa 26% na 13%. Pristup je spojio segmentaciju, rane alarme rizika, proaktivni kontakt, prilagođene Success Planove i strukturisane save razgovore."
+      },
       source: "CV · Experience page",
-      en: "After taking ownership of retention in March 2024, Aleksandar reduced churn from 26% to 13% within six months. The approach combined segmentation, early-warning alerts, proactive outreach, tailored Success Plans, and structured talk tracks for save conversations.",
-      sr: "Nakon što je u martu 2024. preuzeo retention, Aleksandar je za šest meseci smanjio churn sa 26% na 13%. Pristup je spojio segmentaciju, rane alarme rizika, proaktivni kontakt, prilagođene Success Planove i strukturisane razgovore za zadržavanje klijenata."
+      keywords: ["churn", "26", "13", "at risk", "risk", "save", "success plan", "smanjio", "rizicni"],
+      actions: ["experience", "contact"]
     },
-    {
-      id: "expansion",
-      keywords: ["expansion", "upsell", "cross sell", "revenue", "370", "growth", "commercial", "prihod", "prodaja", "rast"],
-      source: "CV · Experience page",
-      en: "Aleksandar generated $370,000 in upsell, cross-sell, and expansion revenue across the retention portfolio. He connects commercial opportunities to customer outcomes rather than treating expansion as a disconnected sales motion.",
-      sr: "Aleksandar je ostvario $370.000 kroz upsell, cross-sell i expansion na retention portfoliju. Komercijalne prilike povezuje sa ishodima klijenta, umesto da expansion tretira kao odvojenu prodajnu aktivnost."
-    },
-    {
-      id: "portfolio",
-      keywords: ["accounts", "book", "700", "customers", "segments", "enterprise", "self serve", "smb", "nalozi", "klijenti", "portfolio"],
-      source: "CV · Experience page",
-      en: "He managed the full SaaS lifecycle for 700+ clients across a mixed book, from LITE self-serve customers to enterprise contracts, adapting engagement by value, risk, lifecycle stage, and customer needs.",
-      sr: "Vodio je čitav SaaS lifecycle za više od 700 klijenata, od LITE self-service korisnika do enterprise ugovora, prilagođavajući angažman vrednosti, riziku, lifecycle fazi i potrebama klijenta."
-    },
-    {
-      id: "retention",
-      keywords: ["retention", "renewal", "95", "grr", "nrr", "save", "at risk", "zadrzavanje", "obnova", "rizicni"],
-      source: "CV · Experience page",
-      en: "Aleksandar achieved a 95%+ retention rate, a company record at the time. His work includes risk identification, proactive outreach, Success Plans, adoption recovery, renewal conversations, health-score design, and NRR/GRR reporting.",
-      sr: "Aleksandar je ostvario retention iznad 95%, tadašnji rekord kompanije. Njegov rad obuhvata prepoznavanje rizika, proaktivni kontakt, Success Planove, oporavak adopcije, renewal razgovore, health score modele i NRR/GRR izveštavanje."
-    },
-    {
-      id: "churnzero",
-      keywords: ["churnzero", "journey", "playbook", "health score", "automation", "admin", "alert", "automatizacija", "segmentacija"],
+    churnzero: {
+      menuGroup: "systems",
+      menuTitle: { en: "ChurnZero & CS tools", sr: "ChurnZero i CS alati" },
+      title: { en: "CS systems and automation", sr: "CS sistemi i automatizacija" },
+      text: {
+        en: "Aleksandar is ChurnZero Certified at Levels 1 and 2. Across his CSM roles he designed or redesigned 15+ customer journeys and 20 automated playbooks, and owned segmentation logic, health-score models, alerts, configuration, and reporting infrastructure. His wider stack includes Intercom, HubSpot, ProfitWell, Stripe, Sigma, Zapier, Make, ClickUp, Sheets, and Excel.",
+        sr: "Aleksandar poseduje ChurnZero sertifikate nivoa 1 i 2. Tokom CSM uloga dizajnirao je ili redizajnirao 15+ customer journey-ja i 20 automatizovanih playbookova i vodio segmentaciju, health score modele, alarme, konfiguraciju i reporting infrastrukturu. Koristi i Intercom, HubSpot, ProfitWell, Stripe, Sigma, Zapier, Make, ClickUp, Sheets i Excel."
+      },
       source: "CV · Skills page",
-      en: "Aleksandar is ChurnZero Certified at Levels 1 and 2. Across his CSM roles he designed or redesigned 15+ customer journeys and 20 automated playbooks, and owned segmentation logic, health-score models, alerts, system configuration, and reporting infrastructure.",
-      sr: "Aleksandar poseduje ChurnZero sertifikate nivoa 1 i 2. Tokom CSM uloga dizajnirao je ili redizajnirao 15+ customer journey-ja i 20 automatizovanih playbookova i vodio logiku segmentacije, health score modele, alarme, konfiguraciju sistema i reporting infrastrukturu."
+      keywords: ["churnzero", "tools", "stack", "journey", "playbook", "health score", "automation", "intercom", "hubspot", "stripe", "sigma", "zapier", "profitwell", "alati", "automatizacija"],
+      actions: ["skills", "cv"]
     },
-    {
-      id: "tools",
-      keywords: ["tools", "tech stack", "software", "crm", "intercom", "hubspot", "profitwell", "clickup", "stripe", "sigma", "zapier", "make", "excel", "alati"],
-      source: "CV · Skills page",
-      en: "Stack: ChurnZero, Intercom, HubSpot, ProfitWell, ClickUp, Slack, Zoom, Zapier, Make, Stripe, Stripe Sigma, Google Sheets, and Microsoft Excel.",
-      sr: "Alati: ChurnZero, Intercom, HubSpot, ProfitWell, ClickUp, Slack, Zoom, Zapier, Make, Stripe, Stripe Sigma, Google Sheets i Microsoft Excel."
+    roleFit: {
+      menuGroup: "recruiter",
+      menuTitle: { en: "Check role fit", sr: "Proveri poziciju" },
+      title: { en: "Check role fit", sr: "Proveri podudaranje" },
+      keywords: ["role fit", "position", "job", "fit", "senior csm", "retention manager", "cs ops", "team lead", "pozicija", "posao", "podudaranje"]
     },
-    {
-      id: "onboarding",
-      keywords: ["onboarding", "enablement", "training", "400", "strategy call", "implementation", "obuka", "uvodjenje"],
-      source: "CV · Experience page",
-      en: "Aleksandar delivered 400+ onboarding, enablement, and strategy calls. His approach connects adoption to customer business outcomes, sets expectations early, and adjusts the engagement motion to the account segment.",
-      sr: "Aleksandar je održao 400+ onboarding, enablement i strategy poziva. Njegov pristup povezuje adopciju sa poslovnim ishodima klijenta, rano postavlja očekivanja i prilagođava angažman segmentu naloga."
+    background: {
+      menuGroup: "experience",
+      menuTitle: { en: "Career & education", sr: "Karijera i obrazovanje" },
+      title: { en: "Career and qualifications", sr: "Karijera i kvalifikacije" },
+      text: {
+        en: "Aleksandar has 3.5 years in B2B SaaS retention and growth, preceded by nine years of remote client-facing work and 20,000+ online lessons. He holds an LL.M., ChurnZero Level 1 and 2 certifications, TEFL and TESOL certificates, and training as a psychoanalytic counselor. English proficiency is C1/C2; Serbian is native.",
+        sr: "Aleksandar ima 3,5 godine iskustva u B2B SaaS retentionu i rastu, nakon devet godina remote rada sa klijentima i više od 20.000 online časova. Master je pravnik, poseduje ChurnZero Level 1 i 2, TEFL i TESOL sertifikate i edukaciju za psihoanalitičkog savetnika. Engleski govori na C1/C2 nivou, a srpski mu je maternji."
+      },
+      source: "CV · About page · Skills page",
+      keywords: ["background", "career", "education", "degree", "law", "llm", "teacher", "teaching", "english", "certification", "experience", "karijera", "obrazovanje", "pravnik", "sertifikat"],
+      actions: ["experience", "skills", "cv"]
     },
-    {
-      id: "education",
-      keywords: ["education", "degree", "law", "llm", "certification", "certified", "counselor", "qualification", "obrazovanje", "sertifikat", "pravnik"],
-      source: "CV · Skills page",
-      en: "Aleksandar holds an LL.M. from the University of Kragujevac, ChurnZero Level 1 and 2 certifications, TEFL and TESOL certificates, and training as a psychoanalytic counselor. English proficiency is C1/C2; Serbian is native.",
-      sr: "Aleksandar je master pravnik Univerziteta u Kragujevcu, poseduje ChurnZero Level 1 i 2, TEFL i TESOL sertifikate i edukaciju za psihoanalitičkog savetnika. Engleski govori na C1/C2 nivou, a srpski mu je maternji."
-    },
-    {
-      id: "teaching",
-      keywords: ["teacher", "teaching", "english", "lessons", "20000", "communication", "nastavnik", "predavao", "casovi"],
-      source: "CV · About page",
-      en: "Before SaaS, Aleksandar spent nine years teaching English remotely and delivered 20,000+ lessons worldwide. That experience strengthened communication, enablement, relationship-building, and his ability to handle difficult conversations.",
-      sr: "Pre SaaS-a, Aleksandar je devet godina predavao engleski na daljinu i održao više od 20.000 časova širom sveta. To iskustvo je razvilo njegove veštine komunikacije, edukacije, građenja odnosa i vođenja teških razgovora."
-    },
-    {
-      id: "availability",
-      keywords: ["available", "availability", "location", "remote", "timezone", "time zone", "serbia", "role", "looking for", "opportunity", "dostupan", "lokacija", "pozicija"],
+    contact: {
+      menuGroup: "nextStep",
+      menuTitle: { en: "Contact Aleksandar", sr: "Kontaktiraj Aleksandra" },
+      title: { en: "Start a conversation", sr: "Započni razgovor" },
+      text: {
+        en: "Aleksandar is based in Jagodina, Serbia (CET), has worked fully remotely for the past decade, and is comfortable with EU and US overlap. Email is the fastest way to reach him.",
+        sr: "Aleksandar živi u Jagodini, radi u CET zoni, potpuno je remote poslednjih deset godina i odgovara mu preklapanje sa EU i US radnim vremenom. Najbrže ga možeš kontaktirati mejlom."
+      },
       source: "CV · Contact page",
-      en: "Aleksandar is based in Jagodina, Serbia (CET), has worked fully remotely for the past decade, and is comfortable with EU and US overlap. He is open to Senior CSM, Retention Manager, and CS team lead roles.",
-      sr: "Aleksandar živi u Jagodini, radi u CET zoni, potpuno je remote poslednjih deset godina i odgovara mu preklapanje sa EU i US radnim vremenom. Otvoren je za Senior CSM, Retention Manager i CS team lead pozicije."
+      keywords: ["contact", "email", "phone", "linkedin", "available", "remote", "location", "serbia", "jagodina", "timezone", "kontakt", "mejl", "dostupan", "lokacija"],
+      actions: ["email", "linkedin", "cv"]
     },
-    {
-      id: "contact",
-      keywords: ["contact", "email", "phone", "linkedin", "interview", "reach", "schedule", "talk", "kontakt", "mejl", "razgovor"],
-      source: "CV · Contact page",
-      en: "The fastest way to reach Aleksandar is by email at aleksandarpetrovicbabic@gmail.com. His phone, LinkedIn profile, and downloadable CV are available on the Contact page.",
-      sr: "Najbrže možeš kontaktirati Aleksandra mejlom na aleksandarpetrovicbabic@gmail.com. Telefon, LinkedIn profil i CV za preuzimanje nalaze se na Contact stranici."
+    retention: {
+      title: { en: "Retention and at-risk accounts", sr: "Retention i rizični nalozi" },
+      text: {
+        en: "Aleksandar achieved a 95%+ retention rate, a company record at the time. His retention work includes risk identification, proactive outreach, Success Plans, adoption recovery, renewal conversations, health-score design, and NRR/GRR reporting.",
+        sr: "Aleksandar je ostvario retention iznad 95%, tadašnji rekord kompanije. Njegov rad obuhvata prepoznavanje rizika, proaktivni kontakt, Success Planove, oporavak adopcije, renewal razgovore, health score modele i NRR/GRR izveštavanje."
+      },
+      source: "CV · Experience page",
+      keywords: ["retention", "renewal", "at risk", "nrr", "grr", "save", "zadrzavanje", "obnova", "rizicni"],
+      actions: ["experience", "contact"]
     },
-    {
-      id: "difficult",
-      keywords: ["difficult customer", "escalation", "objection", "angry", "conflict", "tezak klijent", "eskalacija", "prigovor"],
-      source: "CV · Portfolio approach",
-      en: "Aleksandar approaches difficult conversations by separating the customer’s business outcome from the immediate frustration, diagnosing the adoption or expectation gap, agreeing on a concrete Success Plan, and setting measurable follow-up points. His retention work and counseling background make him comfortable when a renewal is genuinely at risk.",
-      sr: "Aleksandar u teškom razgovoru odvaja poslovni cilj klijenta od trenutne frustracije, utvrđuje problem u adopciji ili očekivanjima, dogovara konkretan Success Plan i postavlja merljive tačke praćenja. Retention iskustvo i savetodavna edukacija pomažu mu kada je renewal stvarno ugrožen."
+    expansion: {
+      title: { en: "Commercial impact", sr: "Komercijalni rezultat" },
+      text: {
+        en: "Aleksandar generated $370,000 in upsell, cross-sell, and expansion revenue across the retention portfolio. He connects commercial opportunities to customer outcomes rather than treating expansion as a disconnected sales motion.",
+        sr: "Aleksandar je ostvario $370.000 kroz upsell, cross-sell i expansion na retention portfoliju. Komercijalne prilike povezuje sa ishodima klijenta, umesto da expansion tretira kao odvojenu prodajnu aktivnost."
+      },
+      source: "CV · Experience page",
+      keywords: ["expansion", "upsell", "cross sell", "revenue", "growth", "commercial", "prodaja", "prihod", "rast"],
+      actions: ["experience", "contact"]
+    },
+    onboarding: {
+      title: { en: "Onboarding and enablement", sr: "Onboarding i enablement" },
+      text: {
+        en: "Aleksandar delivered 400+ onboarding, enablement, and strategy calls. His approach connects product adoption to customer business outcomes, establishes expectations early, and adjusts engagement to the account segment.",
+        sr: "Aleksandar je održao 400+ onboarding, enablement i strategy poziva. Njegov pristup povezuje adopciju proizvoda sa poslovnim ishodima klijenta, rano postavlja očekivanja i prilagođava angažman segmentu naloga."
+      },
+      source: "CV · Experience page",
+      keywords: ["onboarding", "enablement", "training", "implementation", "strategy call", "obuka", "uvodjenje"],
+      actions: ["experience", "contact"]
     }
-  ];
+  };
 
   const roleFits = {
-    "senior-csm": {
+    senior: {
       label: { en: "Senior CSM", sr: "Senior CSM" },
-      source: "CV · Experience page",
-      en: "Strong fit. Evidence: 700+ accounts across self-serve and enterprise segments, 95%+ retention, 400+ onboarding and strategy calls, hands-on renewals and save conversations, plus $370K in expansion revenue.",
-      sr: "Snažno podudaranje. Dokazi: 700+ naloga od self-service do enterprise segmenta, retention iznad 95%, 400+ onboarding i strategy poziva, praktičan rad na renewal i save razgovorima i $370K expansion prihoda."
+      title: { en: "Strong fit: Senior CSM", sr: "Snažno podudaranje: Senior CSM" },
+      text: {
+        en: "Evidence: 700+ accounts across self-serve and enterprise segments, 95%+ retention, 400+ onboarding and strategy calls, hands-on renewals and save conversations, and $370K in expansion revenue.",
+        sr: "Dokazi: 700+ naloga od self-service do enterprise segmenta, retention iznad 95%, 400+ onboarding i strategy poziva, praktičan rad na renewal i save razgovorima i $370K expansion prihoda."
+      }
     },
     retention: {
       label: { en: "Retention Manager", sr: "Retention Manager" },
-      source: "CV · Churn case study",
-      en: "Excellent fit. Aleksandar owned retention across the book, reduced churn from 26% to 13% in six months, built risk alerts and save talk tracks, partnered on Success Plans, and reported on NRR, GRR, adoption, and churn.",
-      sr: "Odlično podudaranje. Aleksandar je vodio retention čitavog portfolija, smanjio churn sa 26% na 13% za šest meseci, napravio risk alarme i save talk trackove, radio na Success Planovima i izveštavao o NRR-u, GRR-u, adopciji i churn-u."
+      title: { en: "Excellent fit: Retention Manager", sr: "Odlično podudaranje: Retention Manager" },
+      text: {
+        en: "Evidence: ownership of retention across the book, churn reduced from 26% to 13%, risk alerts and save talk tracks, Success Plans for at-risk accounts, and reporting on NRR, GRR, adoption, and churn.",
+        sr: "Dokazi: vođenje retentiona čitavog portfolija, churn smanjen sa 26% na 13%, risk alarmi i save talk trackovi, Success Planovi za rizične naloge i izveštavanje o NRR-u, GRR-u, adopciji i churn-u."
+      }
     },
-    "cs-ops": {
+    ops: {
       label: { en: "CS Operations", sr: "CS Operations" },
-      source: "CV · Skills page",
-      en: "Strong fit. Aleksandar is a certified ChurnZero Administrator who owned configuration, segmentation logic, health scores, alerts, journeys, playbooks, and reporting infrastructure. His profile is strongest where CS operations remains close to customer outcomes.",
-      sr: "Snažno podudaranje. Aleksandar je sertifikovani ChurnZero administrator koji je vodio konfiguraciju, logiku segmentacije, health score modele, alarme, journey-je, playbookove i reporting infrastrukturu. Najjači je tamo gde CS operacije ostaju povezane sa ishodima klijenta."
+      title: { en: "Strong fit: CS Operations", sr: "Snažno podudaranje: CS Operations" },
+      text: {
+        en: "Evidence: certified ChurnZero Administrator owning configuration, segmentation logic, health scores, alerts, journeys, playbooks, and reporting infrastructure. The strongest fit is a CS Ops role that remains close to customer outcomes.",
+        sr: "Dokazi: sertifikovani ChurnZero administrator koji vodi konfiguraciju, logiku segmentacije, health score modele, alarme, journey-je, playbookove i reporting infrastrukturu. Najjače podudaranje je CS Ops uloga povezana sa ishodima klijenta."
+      }
     },
     lead: {
       label: { en: "CS Team Lead", sr: "CS Team Lead" },
-      source: "CV · Experience page",
-      en: "Good functional-leadership fit. Aleksandar owned cross-book retention and growth strategy, partnered with CSMs on at-risk accounts, and reported to leadership. His CV does not claim formal direct-report management, so that should be explored in an interview rather than assumed.",
-      sr: "Dobro podudaranje za funkcionalno vođstvo. Aleksandar je vodio retention i growth strategiju portfolija, sarađivao sa CSM-ovima na rizičnim nalozima i izveštavao rukovodstvo. CV ne navodi formalno upravljanje direktnim podređenima, pa to treba proveriti na razgovoru umesto pretpostaviti."
+      title: { en: "Good functional fit: CS Team Lead", sr: "Dobro funkcionalno podudaranje: CS Team Lead" },
+      text: {
+        en: "Evidence: ownership of cross-book retention and growth strategy, partnership with CSMs on at-risk accounts, and leadership reporting. The CV does not claim formal direct-report management, so that should be explored in an interview rather than assumed.",
+        sr: "Dokazi: vođenje retention i growth strategije portfolija, saradnja sa CSM-ovima na rizičnim nalozima i izveštavanje rukovodstva. CV ne navodi formalno upravljanje direktnim podređenima, pa to treba proveriti na razgovoru."
+      }
     }
   };
 
+  const menuOrder = {
+    index: ["metrics", "churn", "churnzero", "roleFit", "background", "contact"],
+    experience: ["churn", "metrics", "background", "roleFit", "churnzero", "contact"],
+    skills: ["churnzero", "roleFit", "metrics", "background", "churn", "contact"],
+    contact: ["contact", "roleFit", "metrics", "background", "churnzero", "churn"]
+  };
+
   const styles = `
-    .ap-chat-launcher{position:fixed;right:22px;bottom:22px;z-index:9998;border:0;border-radius:999px;background:#0B2545;color:#fff;display:flex;align-items:center;gap:9px;padding:12px 17px;font:600 14px/1 "Public Sans",system-ui,sans-serif;box-shadow:0 10px 28px rgba(11,37,69,.25);cursor:pointer;transition:transform .16s,background .16s}
-    .ap-chat-launcher:hover{background:#134FA8;transform:translateY(-2px)}
-    .ap-chat-launcher svg,.ap-chat-icon-button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2}
-    .ap-chat{position:fixed;right:22px;bottom:82px;z-index:9999;width:min(400px,calc(100vw - 28px));height:min(630px,calc(100vh - 108px));display:flex;flex-direction:column;background:#fff;border:1px solid #DCE4EE;border-radius:16px;box-shadow:0 18px 55px rgba(11,37,69,.24);overflow:hidden;font-family:"Public Sans",system-ui,sans-serif}
-    .ap-chat[hidden]{display:none}
-    .ap-chat-head{background:#0B2545;color:#fff;padding:14px 14px 13px;display:flex;align-items:center;gap:10px}
-    .ap-chat-avatar{width:39px;height:39px;border-radius:11px;background:#1D6FE0;display:grid;place-items:center;font-family:"Source Serif 4",Georgia,serif;font-weight:700}
-    .ap-chat-title{min-width:0;flex:1}
-    .ap-chat-title strong{display:block;font-family:"Source Serif 4",Georgia,serif;font-size:16px;line-height:1.2}
-    .ap-chat-title span{display:block;color:#B9C7DA;font-size:11.5px;margin-top:3px}
-    .ap-chat-lang{border:1px solid rgba(255,255,255,.28);background:transparent;color:#fff;border-radius:7px;padding:5px 7px;font:600 10.5px/1 "Public Sans",system-ui,sans-serif;cursor:pointer}
-    .ap-chat-lang:hover,.ap-chat-close:hover{background:rgba(255,255,255,.1)}
-    .ap-chat-close{border:0;background:transparent;color:#fff;width:31px;height:31px;border-radius:8px;font-size:24px;line-height:1;cursor:pointer}
-    .ap-chat-messages{flex:1;overflow:auto;padding:15px;background:#F7F9FC;display:flex;flex-direction:column;gap:10px}
-    .ap-chat-message{max-width:90%;padding:10px 12px;border-radius:12px;font-size:13.25px;line-height:1.48;white-space:pre-wrap}
-    .ap-chat-message.bot{align-self:flex-start;color:#22303E;background:#fff;border:1px solid #DCE4EE;border-bottom-left-radius:4px}
-    .ap-chat-message.user{align-self:flex-end;color:#fff;background:#1D6FE0;border-bottom-right-radius:4px}
-    .ap-chat-source{display:block;margin-top:7px;padding-top:6px;border-top:1px solid #E8EDF3;color:#6C7B8B;font-size:10.5px;white-space:normal}
-    .ap-chat-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
-    .ap-chat-action{display:inline-flex;align-items:center;border:1px solid #C9DAF3;background:#EDF3FC;color:#134FA8;border-radius:7px;padding:6px 8px;text-decoration:none;font:600 10.5px/1.2 "Public Sans",system-ui,sans-serif;cursor:pointer}
-    .ap-chat-action:hover{background:#DFEBFA;color:#0B2545}
-    .ap-chat-suggestions{padding:0 14px 11px;background:#F7F9FC;display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin}
-    .ap-chat-chip{flex:0 0 auto;border:1px solid #C9DAF3;background:#fff;color:#134FA8;border-radius:999px;padding:7px 10px;font:500 11px/1.2 "Public Sans",system-ui,sans-serif;cursor:pointer}
-    .ap-chat-chip:hover{background:#EDF3FC}
-    .ap-chat-form{display:flex;gap:7px;padding:11px;border-top:1px solid #DCE4EE;background:#fff}
-    .ap-chat-input{min-width:0;flex:1;border:1px solid #C9D3DF;border-radius:9px;padding:10px 11px;color:#22303E;font:400 13.25px/1.3 "Public Sans",system-ui,sans-serif}
-    .ap-chat-input:focus{outline:2px solid #1D6FE0;outline-offset:1px;border-color:#1D6FE0}
-    .ap-chat-icon-button{border:0;border-radius:9px;background:#EDF3FC;color:#134FA8;width:40px;display:grid;place-items:center;cursor:pointer}
-    .ap-chat-icon-button:hover{background:#DFEBFA}
-    .ap-chat-send{background:#1D6FE0;color:#fff}
-    .ap-chat-send:hover{background:#134FA8}
-    @media(max-width:520px){.ap-chat{right:14px;bottom:76px;height:min(650px,calc(100vh - 92px))}.ap-chat-launcher{right:14px;bottom:14px}.ap-chat-launcher span{display:none}.ap-chat-launcher{width:50px;height:50px;padding:0;justify-content:center}}
-    @media(prefers-reduced-motion:reduce){.ap-chat,.ap-chat-launcher{transition:none}}
+    .ap-guide-launcher{position:fixed;right:22px;bottom:22px;z-index:9998;border:0;border-radius:999px;background:#0B2545;color:#fff;display:flex;align-items:center;gap:9px;padding:12px 17px;font:600 14px/1 "Public Sans",system-ui,sans-serif;box-shadow:0 10px 28px rgba(11,37,69,.25);cursor:pointer;transition:transform .16s,background .16s}
+    .ap-guide-launcher:hover{background:#134FA8;transform:translateY(-2px)}
+    .ap-guide-launcher svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2}
+    .ap-guide{position:fixed;right:22px;bottom:82px;z-index:9999;width:min(410px,calc(100vw - 28px));max-height:min(650px,calc(100vh - 108px));display:flex;flex-direction:column;background:#fff;border:1px solid #DCE4EE;border-radius:16px;box-shadow:0 18px 55px rgba(11,37,69,.24);overflow:hidden;font-family:"Public Sans",system-ui,sans-serif}
+    .ap-guide[hidden]{display:none}
+    .ap-guide-head{background:#0B2545;color:#fff;padding:14px;display:flex;align-items:center;gap:10px}
+    .ap-guide-avatar{width:44px;height:44px;border-radius:12px;object-fit:cover;object-position:center 20%;border:2px solid rgba(255,255,255,.32);background:#1D6FE0}
+    .ap-guide-title{min-width:0;flex:1}
+    .ap-guide-title strong{display:block;font-family:"Source Serif 4",Georgia,serif;font-size:16px;line-height:1.18}
+    .ap-guide-title span{display:block;color:#B9C7DA;font-size:10.5px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ap-guide-lang{border:1px solid rgba(255,255,255,.28);background:transparent;color:#fff;border-radius:7px;padding:5px 7px;font:600 10.5px/1 "Public Sans",system-ui,sans-serif;cursor:pointer}
+    .ap-guide-close{border:0;background:transparent;color:#fff;width:31px;height:31px;border-radius:8px;font-size:24px;line-height:1;cursor:pointer}
+    .ap-guide-lang:hover,.ap-guide-close:hover{background:rgba(255,255,255,.1)}
+    .ap-guide-body{overflow:auto;background:#F7F9FC;padding:17px;min-height:340px}
+    .ap-guide-home h3,.ap-guide-result h3{margin:0;color:#0B2545;font:600 20px/1.25 "Source Serif 4",Georgia,serif}
+    .ap-guide-intro{margin:6px 0 15px;color:#5B6B7C;font-size:12.5px;line-height:1.5}
+    .ap-guide-menu{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .ap-guide-card{border:1px solid #D7E1EC;background:#fff;border-radius:11px;padding:12px;text-align:left;cursor:pointer;min-height:84px;box-shadow:0 1px 2px rgba(11,37,69,.04);transition:transform .14s,border-color .14s,box-shadow .14s}
+    .ap-guide-card:hover{transform:translateY(-1px);border-color:#9CBDE8;box-shadow:0 5px 15px rgba(11,37,69,.08)}
+    .ap-guide-card small{display:block;color:#1D6FE0;font:600 9.5px/1.2 "Public Sans",system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px}
+    .ap-guide-card strong{display:block;color:#22303E;font:600 13px/1.35 "Public Sans",system-ui,sans-serif}
+    .ap-guide-result[hidden],.ap-guide-home[hidden]{display:none}
+    .ap-guide-back{border:0;background:transparent;color:#1D6FE0;padding:0;margin:0 0 15px;font:600 11.5px/1.2 "Public Sans",system-ui,sans-serif;cursor:pointer}
+    .ap-guide-kicker{margin:0 0 6px;color:#1D6FE0;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase}
+    .ap-guide-copy{margin:11px 0 0;color:#344454;font-size:13.25px;line-height:1.58}
+    .ap-guide-source{display:block;margin-top:13px;padding-top:9px;border-top:1px solid #DCE4EE;color:#6C7B8B;font-size:10.5px}
+    .ap-guide-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+    .ap-guide-action{display:inline-flex;align-items:center;border:1px solid #C9DAF3;background:#EDF3FC;color:#134FA8;border-radius:8px;padding:7px 9px;text-decoration:none;font:600 10.5px/1.2 "Public Sans",system-ui,sans-serif;cursor:pointer}
+    .ap-guide-action:hover{background:#DFEBFA;color:#0B2545}
+    .ap-guide-role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+    .ap-guide-role{border:1px solid #C9DAF3;background:#fff;color:#134FA8;border-radius:9px;padding:10px;font:600 11.5px/1.25 "Public Sans",system-ui,sans-serif;cursor:pointer}
+    .ap-guide-role:hover{background:#EDF3FC}
+    .ap-guide-search{border-top:1px solid #DCE4EE;background:#fff;padding:11px 12px 12px}
+    .ap-guide-search label{display:block;color:#5B6B7C;font-size:10.5px;font-weight:600;margin:0 0 6px}
+    .ap-guide-form{display:flex;gap:7px}
+    .ap-guide-input{min-width:0;flex:1;border:1px solid #C9D3DF;border-radius:9px;padding:9px 10px;color:#22303E;font:400 12.5px/1.3 "Public Sans",system-ui,sans-serif}
+    .ap-guide-input:focus{outline:2px solid #1D6FE0;outline-offset:1px;border-color:#1D6FE0}
+    .ap-guide-submit{border:0;border-radius:9px;background:#1D6FE0;color:#fff;width:39px;display:grid;place-items:center;cursor:pointer}
+    .ap-guide-submit:hover{background:#134FA8}
+    .ap-guide-submit svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2}
+    @media(max-width:520px){.ap-guide{right:8px;bottom:72px;width:calc(100vw - 16px);max-height:calc(100vh - 82px)}.ap-guide-launcher{right:14px;bottom:14px}.ap-guide-launcher span{display:none}.ap-guide-launcher{width:50px;height:50px;padding:0;justify-content:center}.ap-guide-body{min-height:310px;padding:15px}.ap-guide-menu{gap:8px}.ap-guide-card{min-height:78px;padding:11px}}
+    @media(max-width:350px){.ap-guide-menu,.ap-guide-role-grid{grid-template-columns:1fr}.ap-guide-title span{display:none}}
+    @media(prefers-reduced-motion:reduce){.ap-guide-launcher,.ap-guide-card{transition:none}}
   `;
 
-  let lang = "en";
-  let messageHistory = [];
   let launcher;
-  let chat;
-  let messages;
-  let suggestions;
+  let panel;
+  let home;
+  let result;
+  let menu;
+  let searchLabel;
   let input;
-  let voiceButton;
-
-  function normalize(value) {
-    return value.toLowerCase().normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9\s]/g, " ")
-      .replace(/\s+/g, " ").trim();
-  }
 
   function currentPage() {
     const name = window.location.pathname.split("/").pop() || "index.html";
@@ -254,369 +267,274 @@
     return "index";
   }
 
-  function saveSession() {
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
-        lang,
-        messages: messageHistory.slice(-18)
-      }));
-    } catch (_) {
-      /* Session storage is optional. */
-    }
+  function normalize(value) {
+    return value.toLowerCase().normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .replace(/\s+/g, " ").trim();
   }
 
-  function restoreSession() {
-    try {
-      const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null");
-      if (!saved || !Array.isArray(saved.messages)) return false;
-      lang = saved.lang === "sr" ? "sr" : "en";
-      saved.messages.forEach(item => addMessage(item.text, item.sender, item.source, [], false));
-      return saved.messages.length > 0;
-    } catch (_) {
-      return false;
-    }
+  function actionItems(types) {
+    const text = ui[lang];
+    const subject = encodeURIComponent("Senior Customer Success opportunity");
+    const actions = {
+      experience: { label: text.viewExperience, href: "experience.html" },
+      skills: { label: text.viewSkills, href: "skills.html" },
+      cv: { label: text.downloadCv, href: "Aleksandar-Petrovic-CV.pdf" },
+      email: { label: text.sendEmail, href: `mailto:${EMAIL}?subject=${subject}` },
+      contact: { label: text.sendEmail, href: `mailto:${EMAIL}?subject=${subject}` },
+      linkedin: { label: text.openLinkedIn, href: "https://linkedin.com/in/aleksandar-petrovic", external: true }
+    };
+    return (types || []).map(type => actions[type]).filter(Boolean);
   }
 
-  function sourceLabel(source) {
-    if (!source) return "";
-    return `${copy[lang].source}: ${source}`;
+  function renderActions(container, actions) {
+    const row = document.createElement("div");
+    row.className = "ap-guide-actions";
+    actions.forEach(action => {
+      const link = document.createElement("a");
+      link.className = "ap-guide-action";
+      link.textContent = action.label;
+      link.href = action.href;
+      if (action.external) {
+        link.target = "_blank";
+        link.rel = "noopener";
+      }
+      row.appendChild(link);
+    });
+    container.appendChild(row);
   }
 
-  function addMessage(text, sender, source, actions, persist = true) {
-    const message = document.createElement("div");
-    message.className = `ap-chat-message ${sender}`;
+  function groupLabel(key) {
+    return ui[lang][key] || key;
+  }
 
-    const body = document.createElement("span");
+  function renderHome() {
+    activeView = { type: "home" };
+    result.hidden = true;
+    home.hidden = false;
+    home.querySelector("h3").textContent = ui[lang].intro;
+    home.querySelector(".ap-guide-intro").textContent = ui[lang].introNote;
+    menu.textContent = "";
+
+    menuOrder[currentPage()].forEach(topicId => {
+      const topic = topics[topicId];
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "ap-guide-card";
+
+      const category = document.createElement("small");
+      category.textContent = groupLabel(topic.menuGroup);
+      const title = document.createElement("strong");
+      title.textContent = topic.menuTitle[lang];
+      card.append(category, title);
+      card.addEventListener("click", () => {
+        if (topicId === "roleFit") renderRolePicker();
+        else renderTopic(topicId);
+      });
+      menu.appendChild(card);
+    });
+  }
+
+  function resultShell(kicker, title, text, source) {
+    home.hidden = true;
+    result.hidden = false;
+    result.textContent = "";
+
+    const back = document.createElement("button");
+    back.type = "button";
+    back.className = "ap-guide-back";
+    back.textContent = `← ${ui[lang].back}`;
+    back.addEventListener("click", renderHome);
+
+    const eyebrow = document.createElement("p");
+    eyebrow.className = "ap-guide-kicker";
+    eyebrow.textContent = kicker;
+    const heading = document.createElement("h3");
+    heading.textContent = title;
+    const body = document.createElement("p");
+    body.className = "ap-guide-copy";
     body.textContent = text;
-    message.appendChild(body);
+
+    result.append(back, eyebrow, heading, body);
 
     if (source) {
       const citation = document.createElement("small");
-      citation.className = "ap-chat-source";
-      citation.textContent = sourceLabel(source);
-      message.appendChild(citation);
-    }
-
-    if (actions && actions.length) {
-      const row = document.createElement("div");
-      row.className = "ap-chat-actions";
-      actions.forEach(action => {
-        const control = document.createElement(action.href ? "a" : "button");
-        control.className = "ap-chat-action";
-        control.textContent = action.label;
-        if (action.href) {
-          control.href = action.href;
-          if (action.external) {
-            control.target = "_blank";
-            control.rel = "noopener";
-          }
-        } else {
-          control.type = "button";
-          control.addEventListener("click", () => runCommand(action.command, action.label));
-        }
-        row.appendChild(control);
-      });
-      message.appendChild(row);
-    }
-
-    messages.appendChild(message);
-    messages.scrollTop = messages.scrollHeight;
-
-    if (persist) {
-      messageHistory.push({ text, sender, source: source || "" });
-      saveSession();
+      citation.className = "ap-guide-source";
+      citation.textContent = `${ui[lang].source}: ${source}`;
+      result.appendChild(citation);
     }
   }
 
-  function findTopic(question) {
-    const cleanQuestion = normalize(question);
-    const words = new Set(cleanQuestion.split(" ").filter(word => word.length > 2));
-    let best = null;
+  function renderTopic(topicId) {
+    const topic = topics[topicId];
+    activeView = { type: "topic", id: topicId };
+    resultShell(groupLabel(topic.menuGroup || "experience"), topic.title[lang], topic.text[lang], topic.source);
+    renderActions(result, actionItems(topic.actions));
+  }
+
+  function renderRolePicker() {
+    activeView = { type: "rolePicker" };
+    resultShell(ui[lang].recruiter, ui[lang].fitTitle, ui[lang].fitIntro, "CV · Experience page");
+
+    const grid = document.createElement("div");
+    grid.className = "ap-guide-role-grid";
+    Object.entries(roleFits).forEach(([roleId, role]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "ap-guide-role";
+      button.textContent = role.label[lang];
+      button.addEventListener("click", () => renderRole(roleId));
+      grid.appendChild(button);
+    });
+    result.appendChild(grid);
+  }
+
+  function renderRole(roleId) {
+    const role = roleFits[roleId];
+    activeView = { type: "role", id: roleId };
+    resultShell(ui[lang].recruiter, role.title[lang], role.text[lang], "CV · Experience page");
+    renderActions(result, actionItems(["experience", "email"]));
+  }
+
+  function findTopic(query) {
+    const clean = normalize(query);
+    const words = new Set(clean.split(" ").filter(word => word.length > 2));
+    let bestId = null;
     let bestScore = 0;
 
-    knowledge.forEach(item => {
+    Object.entries(topics).forEach(([topicId, topic]) => {
       let score = 0;
-      item.keywords.forEach(keyword => {
-        const cleanKeyword = normalize(keyword);
-        if (cleanQuestion.includes(cleanKeyword)) {
-          score += cleanKeyword.includes(" ") ? 5 : 3;
+      (topic.keywords || []).forEach(keyword => {
+        const normalizedKeyword = normalize(keyword);
+        if (clean.includes(normalizedKeyword)) {
+          score += normalizedKeyword.includes(" ") ? 5 : 3;
         } else {
-          cleanKeyword.split(" ").forEach(word => {
+          normalizedKeyword.split(" ").forEach(word => {
             if (word.length > 2 && words.has(word)) score += 1;
           });
         }
       });
       if (score > bestScore) {
         bestScore = score;
-        best = item;
+        bestId = topicId;
       }
     });
 
-    return bestScore >= 2 ? best : null;
+    return bestScore >= 2 ? bestId : null;
   }
 
-  function topicActions(topicId) {
-    if (topicId === "contact") {
-      const subject = encodeURIComponent("Senior Customer Success opportunity");
-      return [
-        { label: lang === "sr" ? "Pošalji mejl" : "Send email", href: `mailto:${EMAIL}?subject=${subject}` },
-        { label: "LinkedIn", href: "https://linkedin.com/in/aleksandar-petrovic", external: true },
-        { label: lang === "sr" ? "Preuzmi CV" : "Download CV", href: "Aleksandar-Petrovic-CV.pdf" }
-      ];
-    }
-    if (topicId === "metrics" || topicId === "churn" || topicId === "retention") {
-      return [{ label: lang === "sr" ? "Pogledaj iskustvo" : "View experience", href: "experience.html" }];
-    }
-    if (topicId === "tools" || topicId === "churnzero" || topicId === "education") {
-      return [{ label: lang === "sr" ? "Pogledaj veštine" : "View skills", href: "skills.html" }];
-    }
-    return [];
+  function renderNotFound() {
+    activeView = { type: "notFound" };
+    resultShell(ui[lang].searchLabel, ui[lang].notFoundTitle, ui[lang].notFound, "");
+    renderActions(result, actionItems(["cv", "email"]));
   }
 
-  function answerTopic(topicId) {
-    const topic = knowledge.find(item => item.id === topicId);
-    if (!topic) return;
-    window.setTimeout(() => {
-      addMessage(topic[lang], "bot", topic.source, topicActions(topic.id));
-    }, 160);
-  }
-
-  function roleFit(roleId) {
-    const fit = roleFits[roleId];
-    if (!fit) return;
-    addMessage(fit.label[lang], "user");
-    window.setTimeout(() => {
-      addMessage(fit[lang], "bot", fit.source, [
-        { label: lang === "sr" ? "Kontaktiraj Aleksandra" : "Contact Aleksandar", command: "contact" },
-        { label: copy[lang].menu, command: "menu" }
-      ]);
-    }, 160);
-  }
-
-  function showMenu() {
-    addMessage(copy[lang].menuPrompt, "bot", "", [
-      { label: lang === "sr" ? "Rezultati" : "Measurable results", command: "topic:metrics" },
-      { label: lang === "sr" ? "Churn studija" : "Churn case study", command: "topic:churn" },
-      { label: lang === "sr" ? "Provera pozicije" : "Check role fit", command: "fit" },
-      { label: "ChurnZero", command: "topic:churnzero" },
-      { label: lang === "sr" ? "Intervju odgovori" : "Interview answers", command: "interview" },
-      { label: lang === "sr" ? "Kontakt" : "Contact", command: "contact" }
-    ]);
-  }
-
-  function showRoleFit() {
-    addMessage(copy[lang].fitPrompt, "bot", "CV · Experience page", [
-      { label: roleFits["senior-csm"].label[lang], command: "fit:senior-csm" },
-      { label: roleFits.retention.label[lang], command: "fit:retention" },
-      { label: roleFits["cs-ops"].label[lang], command: "fit:cs-ops" },
-      { label: roleFits.lead.label[lang], command: "fit:lead" }
-    ]);
-  }
-
-  function showInterview() {
-    addMessage(copy[lang].interviewPrompt, "bot", "", [
-      { label: lang === "sr" ? "Predstavi kandidata" : "Tell me about yourself", command: "topic:overview" },
-      { label: lang === "sr" ? "Zašto baš on?" : "Why should we hire him?", command: "topic:hire" },
-      { label: lang === "sr" ? "Najveći rezultat" : "Biggest achievement", command: "topic:churn" },
-      { label: lang === "sr" ? "Rizični klijenti" : "At-risk accounts", command: "topic:retention" },
-      { label: lang === "sr" ? "Težak klijent" : "Difficult customer", command: "topic:difficult" },
-      { label: lang === "sr" ? "Komercijalni rezultat" : "Commercial impact", command: "topic:expansion" }
-    ]);
-  }
-
-  function showContact() {
-    const topic = knowledge.find(item => item.id === "contact");
-    addMessage(topic[lang], "bot", topic.source, topicActions("contact"));
-  }
-
-  function runCommand(command, visibleLabel) {
-    if (command.startsWith("topic:")) {
-      if (visibleLabel) addMessage(visibleLabel, "user");
-      answerTopic(command.split(":")[1]);
-      return;
-    }
-    if (command.startsWith("fit:")) {
-      roleFit(command.split(":")[1]);
-      return;
-    }
-    if (command === "fit") {
-      if (visibleLabel) addMessage(visibleLabel, "user");
-      showRoleFit();
-      return;
-    }
-    if (command === "interview") {
-      if (visibleLabel) addMessage(visibleLabel, "user");
-      showInterview();
-      return;
-    }
-    if (command === "contact") {
-      if (visibleLabel) addMessage(visibleLabel, "user");
-      showContact();
-      return;
-    }
-    if (command === "menu") {
-      if (visibleLabel) addMessage(visibleLabel, "user");
-      showMenu();
-    }
-  }
-
-  function ask(question) {
-    addMessage(question, "user");
-    const topic = findTopic(question);
-    window.setTimeout(() => {
-      if (topic) {
-        addMessage(topic[lang], "bot", topic.source, topicActions(topic.id));
-      } else {
-        addMessage(copy[lang].fallback, "bot", "", [
-          { label: copy[lang].menu, command: "menu" },
-          { label: lang === "sr" ? "Kontakt" : "Contact", command: "contact" }
-        ]);
-      }
-    }, 170);
-  }
-
-  function renderSuggestions() {
-    suggestions.textContent = "";
-    copy[lang].pageSuggestions[currentPage()].forEach(([label, command]) => {
-      const chip = document.createElement(command.startsWith("link:") ? "a" : "button");
-      chip.className = "ap-chat-chip";
-      chip.textContent = label;
-      if (command.startsWith("link:")) {
-        chip.href = command.slice(5);
-      } else {
-        chip.type = "button";
-        chip.addEventListener("click", () => runCommand(command.replace("command:", ""), label));
-      }
-      suggestions.appendChild(chip);
-    });
-  }
-
-  function updateLanguageUi() {
-    const text = copy[lang];
+  function refreshLanguage() {
+    const text = ui[lang];
     launcher.querySelector("span").textContent = text.launcher;
     launcher.setAttribute("aria-label", text.open);
-    chat.querySelector(".ap-chat-title strong").textContent = text.title;
-    chat.querySelector(".ap-chat-title span").textContent = text.subtitle;
-    chat.querySelector(".ap-chat-close").setAttribute("aria-label", text.close);
-    chat.querySelector(".ap-chat-lang").textContent = lang === "en" ? "SR" : "EN";
-    input.placeholder = text.placeholder;
-    input.setAttribute("aria-label", text.placeholder);
-    chat.querySelector(".ap-chat-send").setAttribute("aria-label", text.send);
-    if (voiceButton) voiceButton.setAttribute("aria-label", text.voice);
-    renderSuggestions();
-    saveSession();
+    panel.querySelector(".ap-guide-title strong").textContent = text.title;
+    panel.querySelector(".ap-guide-title span").textContent = text.subtitle;
+    panel.querySelector(".ap-guide-close").setAttribute("aria-label", text.close);
+    panel.querySelector(".ap-guide-lang").textContent = lang === "en" ? "SR" : "EN";
+    searchLabel.textContent = text.searchLabel;
+    input.placeholder = text.searchPlaceholder;
+
+    if (activeView.type === "home") renderHome();
+    else if (activeView.type === "topic") renderTopic(activeView.id);
+    else if (activeView.type === "rolePicker") renderRolePicker();
+    else if (activeView.type === "role") renderRole(activeView.id);
+    else renderNotFound();
   }
 
-  function toggleLanguage() {
-    lang = lang === "en" ? "sr" : "en";
-    updateLanguageUi();
-    addMessage(copy[lang].languageChanged, "bot");
-  }
-
-  function setupVoice() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      voiceButton.hidden = true;
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    voiceButton.addEventListener("click", () => {
-      recognition.lang = lang === "sr" ? "sr-RS" : "en-US";
-      try {
-        recognition.start();
-      } catch (_) {
-        addMessage(copy[lang].voiceError, "bot");
-      }
-    });
-
-    recognition.addEventListener("result", event => {
-      const question = event.results[0][0].transcript.trim();
-      if (question) ask(question);
-    });
-    recognition.addEventListener("error", () => addMessage(copy[lang].voiceError, "bot"));
-  }
-
-  function buildChat() {
+  function buildGuide() {
     const style = document.createElement("style");
     style.textContent = styles;
     document.head.appendChild(style);
 
     launcher = document.createElement("button");
-    launcher.className = "ap-chat-launcher";
     launcher.type = "button";
+    launcher.className = "ap-guide-launcher";
     launcher.setAttribute("aria-expanded", "false");
-    launcher.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-7a4 4 0 0 1-1-2.6V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4Z"/></svg><span></span>';
+    launcher.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg><span></span>';
 
-    chat = document.createElement("aside");
-    chat.className = "ap-chat";
-    chat.hidden = true;
-    chat.setAttribute("role", "dialog");
-    chat.setAttribute("aria-label", "Aleksandar portfolio assistant");
-    chat.innerHTML = `
-      <div class="ap-chat-head">
-        <div class="ap-chat-avatar" aria-hidden="true">AP</div>
-        <div class="ap-chat-title"><strong></strong><span></span></div>
-        <button class="ap-chat-lang" type="button" aria-label="Change language"></button>
-        <button class="ap-chat-close" type="button">×</button>
+    panel = document.createElement("aside");
+    panel.className = "ap-guide";
+    panel.hidden = true;
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-label", "Aleksandar portfolio guide");
+    panel.innerHTML = `
+      <header class="ap-guide-head">
+        <img class="ap-guide-avatar" src="avatar.jpg" alt="">
+        <div class="ap-guide-title"><strong></strong><span></span></div>
+        <button class="ap-guide-lang" type="button" aria-label="Change language"></button>
+        <button class="ap-guide-close" type="button">×</button>
+      </header>
+      <div class="ap-guide-body">
+        <section class="ap-guide-home">
+          <h3></h3>
+          <p class="ap-guide-intro"></p>
+          <div class="ap-guide-menu"></div>
+        </section>
+        <section class="ap-guide-result" hidden></section>
       </div>
-      <div class="ap-chat-messages" aria-live="polite"></div>
-      <div class="ap-chat-suggestions" aria-label="Suggested questions"></div>
-      <form class="ap-chat-form">
-        <input class="ap-chat-input" type="text" maxlength="180" autocomplete="off">
-        <button class="ap-chat-icon-button ap-chat-voice" type="button">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5M8 22h8"/></svg>
-        </button>
-        <button class="ap-chat-icon-button ap-chat-send" type="submit">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-        </button>
-      </form>
+      <footer class="ap-guide-search">
+        <label></label>
+        <form class="ap-guide-form">
+          <input class="ap-guide-input" type="search" maxlength="100" autocomplete="off">
+          <button class="ap-guide-submit" type="submit" aria-label="Search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          </button>
+        </form>
+      </footer>
     `;
 
-    document.body.append(launcher, chat);
-    messages = chat.querySelector(".ap-chat-messages");
-    suggestions = chat.querySelector(".ap-chat-suggestions");
-    input = chat.querySelector(".ap-chat-input");
-    voiceButton = chat.querySelector(".ap-chat-voice");
+    document.body.append(launcher, panel);
+    home = panel.querySelector(".ap-guide-home");
+    result = panel.querySelector(".ap-guide-result");
+    menu = panel.querySelector(".ap-guide-menu");
+    searchLabel = panel.querySelector(".ap-guide-search label");
+    input = panel.querySelector(".ap-guide-input");
 
-    const restored = restoreSession();
-    updateLanguageUi();
-    setupVoice();
-    if (!restored) addMessage(copy[lang].greeting, "bot", "CV · Portfolio");
-
-    function openChat() {
-      chat.hidden = false;
+    function openGuide() {
+      panel.hidden = false;
       launcher.setAttribute("aria-expanded", "true");
-      window.setTimeout(() => input.focus(), 30);
     }
 
-    function closeChat() {
-      chat.hidden = true;
+    function closeGuide() {
+      panel.hidden = true;
       launcher.setAttribute("aria-expanded", "false");
       launcher.focus();
     }
 
-    launcher.addEventListener("click", () => chat.hidden ? openChat() : closeChat());
-    chat.querySelector(".ap-chat-close").addEventListener("click", closeChat);
-    chat.querySelector(".ap-chat-lang").addEventListener("click", toggleLanguage);
-    chat.querySelector(".ap-chat-form").addEventListener("submit", event => {
+    launcher.addEventListener("click", () => panel.hidden ? openGuide() : closeGuide());
+    panel.querySelector(".ap-guide-close").addEventListener("click", closeGuide);
+    panel.querySelector(".ap-guide-lang").addEventListener("click", () => {
+      lang = lang === "en" ? "sr" : "en";
+      refreshLanguage();
+    });
+    panel.querySelector(".ap-guide-form").addEventListener("submit", event => {
       event.preventDefault();
-      const question = input.value.trim();
-      if (!question) return;
+      const query = input.value.trim();
+      if (!query) return;
+      const topicId = findTopic(query);
       input.value = "";
-      ask(question);
+      if (topicId === "roleFit") renderRolePicker();
+      else if (topicId) renderTopic(topicId);
+      else renderNotFound();
     });
     document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && !chat.hidden) closeChat();
+      if (event.key === "Escape" && !panel.hidden) closeGuide();
     });
+
+    renderHome();
+    refreshLanguage();
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", buildChat);
+    document.addEventListener("DOMContentLoaded", buildGuide);
   } else {
-    buildChat();
+    buildGuide();
   }
 })();
