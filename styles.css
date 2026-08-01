@@ -245,6 +245,7 @@ ul { margin: 0; }
 .impact-table th, .impact-table td { padding: 13px 11px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; font-size: 13.5px; }
 .impact-table th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
 .impact-table td:last-child { color: var(--teal); font-weight: 750; }
+.impact-table + .proof-note { margin-top: 18px; }
 
 /* Contact */
 .contact-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; }
