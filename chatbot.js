@@ -29,6 +29,7 @@
       experience: "Experience",
       nextStep: "Next step",
       viewExperience: "View experience",
+      viewCases: "View case studies",
       viewSkills: "View skills",
       downloadCv: "Download CV",
       sendEmail: "Send email",
@@ -57,6 +58,7 @@
       experience: "Iskustvo",
       nextStep: "Sledeći korak",
       viewExperience: "Pogledaj iskustvo",
+      viewCases: "Pogledaj studije slučaja",
       viewSkills: "Pogledaj veštine",
       downloadCv: "Preuzmi CV",
       sendEmail: "Pošalji mejl",
@@ -70,12 +72,12 @@
       menuTitle: { en: "Key numbers", sr: "Ključni brojevi" },
       title: { en: "Measurable results", sr: "Merljivi rezultati" },
       text: {
-        en: "Churn reduced from 26% to 13% in six months. $370K in expansion revenue. 95%+ retention across 700+ accounts. 400+ onboarding, enablement, and strategy calls. Customer Health Scores improved by 50%.",
-        sr: "Churn smanjen sa 26% na 13% za šest meseci. $370K expansion prihoda. Retention iznad 95% na portfoliju od 700+ naloga. Više od 400 onboarding, enablement i strategy poziva. Customer Health Score poboljšan za 50%."
+        en: "Churn reduced from 26% to 13% in six months. $370K in upsell, cross-sell, and expansion revenue. 95%+ retention across 700+ accounts. 400+ onboarding, enablement, and strategy calls. Customer Health Scores improved by 50%.",
+        sr: "Churn smanjen sa 26% na 13% za šest meseci. $370K upsell, cross-sell i expansion prihoda. Retention iznad 95% na portfoliju od 700+ naloga. Više od 400 onboarding, enablement i strategy poziva. Customer Health Score poboljšan za 50%."
       },
       source: "CV · Portfolio results",
       keywords: ["metrics", "numbers", "results", "achievement", "kpi", "95", "370", "700", "400", "rezultati", "brojevi", "dostignuca"],
-      actions: ["experience", "cv"]
+      actions: ["cases", "cv"]
     },
     churn: {
       menuGroup: "caseStudy",
@@ -85,9 +87,9 @@
         en: "After taking ownership of retention in March 2024, Aleksandar reduced churn from 26% to 13% within six months. The motion combined segmentation, early-warning risk alerts, proactive outreach, tailored Success Plans, and structured talk tracks for save conversations.",
         sr: "Nakon što je u martu 2024. preuzeo retention, Aleksandar je za šest meseci smanjio churn sa 26% na 13%. Pristup je spojio segmentaciju, rane alarme rizika, proaktivni kontakt, prilagođene Success Planove i strukturisane save razgovore."
       },
-      source: "CV · Experience page",
+      source: "CV · Case studies page",
       keywords: ["churn", "26", "13", "at risk", "risk", "save", "success plan", "smanjio", "rizicni"],
-      actions: ["experience", "contact"]
+      actions: ["cases", "contact"]
     },
     churnzero: {
       menuGroup: "systems",
@@ -112,8 +114,8 @@
       menuTitle: { en: "Career & education", sr: "Karijera i obrazovanje" },
       title: { en: "Career and qualifications", sr: "Karijera i kvalifikacije" },
       text: {
-        en: "Aleksandar has 3.5 years in B2B SaaS retention and growth, preceded by nine years of remote client-facing work and 20,000+ online lessons. He holds an LL.M., ChurnZero Level 1 and 2 certifications, TEFL and TESOL certificates, and training as a psychoanalytic counselor. English proficiency is C1/C2; Serbian is native.",
-        sr: "Aleksandar ima 3,5 godine iskustva u B2B SaaS retentionu i rastu, nakon devet godina remote rada sa klijentima i više od 20.000 online časova. Master je pravnik, poseduje ChurnZero Level 1 i 2, TEFL i TESOL sertifikate i edukaciju za psihoanalitičkog savetnika. Engleski govori na C1/C2 nivou, a srpski mu je maternji."
+        en: "From February 2023 to October 2025, Aleksandar progressed through three B2B SaaS Customer Success roles. Before that, he spent nine years in remote client-facing education and delivered 20,000+ online lessons. He holds an LL.M., ChurnZero Level 1 and 2 certifications, TEFL and TESOL certificates, and training as a psychoanalytic counselor. English proficiency is C1/C2; Serbian is native.",
+        sr: "Od februara 2023. do oktobra 2025. Aleksandar je napredovao kroz tri B2B SaaS Customer Success uloge. Pre toga je devet godina radio remote sa klijentima u obrazovanju i održao više od 20.000 online časova. Master je pravnik, poseduje ChurnZero Level 1 i 2, TEFL i TESOL sertifikate i edukaciju za psihoanalitičkog savetnika. Engleski govori na C1/C2 nivou, a srpski mu je maternji."
       },
       source: "CV · About page · Skills page",
       keywords: ["background", "career", "education", "degree", "law", "llm", "teacher", "teaching", "english", "certification", "experience", "karijera", "obrazovanje", "pravnik", "sertifikat"],
@@ -142,14 +144,16 @@
       actions: ["experience", "contact"]
     },
     expansion: {
+      menuGroup: "caseStudy",
+      menuTitle: { en: "$370K expansion", sr: "$370K expansion" },
       title: { en: "Commercial impact", sr: "Komercijalni rezultat" },
       text: {
-        en: "Aleksandar generated $370,000 in upsell, cross-sell, and expansion revenue across the retention portfolio. He connects commercial opportunities to customer outcomes rather than treating expansion as a disconnected sales motion.",
-        sr: "Aleksandar je ostvario $370.000 kroz upsell, cross-sell i expansion na retention portfoliju. Komercijalne prilike povezuje sa ishodima klijenta, umesto da expansion tretira kao odvojenu prodajnu aktivnost."
+        en: "Aleksandar generated $370,000 in upsell, cross-sell, and expansion revenue across the retention portfolio. He connects commercial and recovery opportunities to customer outcomes rather than treating them as disconnected sales motions.",
+        sr: "Aleksandar je ostvario $370.000 kroz upsell, cross-sell i expansion na retention portfoliju. Komercijalne i recovery prilike povezuje sa ishodima klijenta, umesto da ih tretira kao odvojene prodajne aktivnosti."
       },
-      source: "CV · Experience page",
+      source: "CV · Supporting revenue log · Case studies page",
       keywords: ["expansion", "upsell", "cross sell", "revenue", "growth", "commercial", "prodaja", "prihod", "rast"],
-      actions: ["experience", "contact"]
+      actions: ["cases", "contact"]
     },
     onboarding: {
       title: { en: "Onboarding and enablement", sr: "Onboarding i enablement" },
@@ -200,18 +204,19 @@
 
   const menuOrder = {
     index: ["metrics", "churn", "churnzero", "roleFit", "background", "contact"],
+    cases: ["churn", "metrics", "churnzero", "roleFit", "expansion", "contact"],
     experience: ["churn", "metrics", "background", "roleFit", "churnzero", "contact"],
     skills: ["churnzero", "roleFit", "metrics", "background", "churn", "contact"],
     contact: ["contact", "roleFit", "metrics", "background", "churnzero", "churn"]
   };
 
   const styles = `
-    .ap-guide-launcher{position:fixed;right:22px;bottom:22px;z-index:9998;border:0;border-radius:999px;background:#0B2545;color:#fff;display:flex;align-items:center;gap:9px;padding:12px 17px;font:600 14px/1 "Public Sans",system-ui,sans-serif;box-shadow:0 10px 28px rgba(11,37,69,.25);cursor:pointer;transition:transform .16s,background .16s}
-    .ap-guide-launcher:hover{background:#134FA8;transform:translateY(-2px)}
+    .ap-guide-launcher{position:fixed;right:22px;bottom:22px;z-index:9998;border:0;border-radius:999px;background:#132b2f;color:#fff;display:flex;align-items:center;gap:9px;padding:12px 17px;font:600 14px/1 "Public Sans",system-ui,sans-serif;box-shadow:0 10px 28px rgba(19,43,47,.25);cursor:pointer;transition:transform .16s,background .16s}
+    .ap-guide-launcher:hover{background:#0e756c;transform:translateY(-2px)}
     .ap-guide-launcher svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2}
     .ap-guide{position:fixed;right:22px;bottom:82px;z-index:9999;width:min(410px,calc(100vw - 28px));max-height:min(650px,calc(100vh - 108px));display:flex;flex-direction:column;background:#fff;border:1px solid #DCE4EE;border-radius:16px;box-shadow:0 18px 55px rgba(11,37,69,.24);overflow:hidden;font-family:"Public Sans",system-ui,sans-serif}
     .ap-guide[hidden]{display:none}
-    .ap-guide-head{background:#0B2545;color:#fff;padding:14px;display:flex;align-items:center;gap:10px}
+    .ap-guide-head{background:#132b2f;color:#fff;padding:14px;display:flex;align-items:center;gap:10px}
     .ap-guide-avatar{width:44px;height:44px;border-radius:12px;object-fit:cover;object-position:center 20%;border:2px solid rgba(255,255,255,.32);background:#1D6FE0}
     .ap-guide-title{min-width:0;flex:1}
     .ap-guide-title strong{display:block;font-family:"Source Serif 4",Georgia,serif;font-size:16px;line-height:1.18}
@@ -220,31 +225,31 @@
     .ap-guide-close{border:0;background:transparent;color:#fff;width:31px;height:31px;border-radius:8px;font-size:24px;line-height:1;cursor:pointer}
     .ap-guide-lang:hover,.ap-guide-close:hover{background:rgba(255,255,255,.1)}
     .ap-guide-body{overflow:auto;background:#F7F9FC;padding:17px;min-height:340px}
-    .ap-guide-home h3,.ap-guide-result h3{margin:0;color:#0B2545;font:600 20px/1.25 "Source Serif 4",Georgia,serif}
+    .ap-guide-home h3,.ap-guide-result h3{margin:0;color:#132b2f;font:600 20px/1.25 "Source Serif 4",Georgia,serif}
     .ap-guide-intro{margin:6px 0 15px;color:#5B6B7C;font-size:12.5px;line-height:1.5}
     .ap-guide-menu{display:grid;grid-template-columns:1fr 1fr;gap:9px}
     .ap-guide-card{border:1px solid #D7E1EC;background:#fff;border-radius:11px;padding:12px;text-align:left;cursor:pointer;min-height:84px;box-shadow:0 1px 2px rgba(11,37,69,.04);transition:transform .14s,border-color .14s,box-shadow .14s}
-    .ap-guide-card:hover{transform:translateY(-1px);border-color:#9CBDE8;box-shadow:0 5px 15px rgba(11,37,69,.08)}
-    .ap-guide-card small{display:block;color:#1D6FE0;font:600 9.5px/1.2 "Public Sans",system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px}
+    .ap-guide-card:hover{transform:translateY(-1px);border-color:#78b8b0;box-shadow:0 5px 15px rgba(19,43,47,.08)}
+    .ap-guide-card small{display:block;color:#0e756c;font:600 9.5px/1.2 "Public Sans",system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px}
     .ap-guide-card strong{display:block;color:#22303E;font:600 13px/1.35 "Public Sans",system-ui,sans-serif}
     .ap-guide-result[hidden],.ap-guide-home[hidden]{display:none}
-    .ap-guide-back{border:0;background:transparent;color:#1D6FE0;padding:0;margin:0 0 15px;font:600 11.5px/1.2 "Public Sans",system-ui,sans-serif;cursor:pointer}
-    .ap-guide-kicker{margin:0 0 6px;color:#1D6FE0;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase}
+    .ap-guide-back{border:0;background:transparent;color:#0e756c;padding:0;margin:0 0 15px;font:600 11.5px/1.2 "Public Sans",system-ui,sans-serif;cursor:pointer}
+    .ap-guide-kicker{margin:0 0 6px;color:#0e756c;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase}
     .ap-guide-copy{margin:11px 0 0;color:#344454;font-size:13.25px;line-height:1.58}
     .ap-guide-source{display:block;margin-top:13px;padding-top:9px;border-top:1px solid #DCE4EE;color:#6C7B8B;font-size:10.5px}
     .ap-guide-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
-    .ap-guide-action{display:inline-flex;align-items:center;border:1px solid #C9DAF3;background:#EDF3FC;color:#134FA8;border-radius:8px;padding:7px 9px;text-decoration:none;font:600 10.5px/1.2 "Public Sans",system-ui,sans-serif;cursor:pointer}
-    .ap-guide-action:hover{background:#DFEBFA;color:#0B2545}
+    .ap-guide-action{display:inline-flex;align-items:center;border:1px solid #b6d7d2;background:#dceee9;color:#095a54;border-radius:8px;padding:7px 9px;text-decoration:none;font:600 10.5px/1.2 "Public Sans",system-ui,sans-serif;cursor:pointer}
+    .ap-guide-action:hover{background:#cbe6e1;color:#132b2f}
     .ap-guide-role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
-    .ap-guide-role{border:1px solid #C9DAF3;background:#fff;color:#134FA8;border-radius:9px;padding:10px;font:600 11.5px/1.25 "Public Sans",system-ui,sans-serif;cursor:pointer}
-    .ap-guide-role:hover{background:#EDF3FC}
+    .ap-guide-role{border:1px solid #b6d7d2;background:#fff;color:#095a54;border-radius:9px;padding:10px;font:600 11.5px/1.25 "Public Sans",system-ui,sans-serif;cursor:pointer}
+    .ap-guide-role:hover{background:#dceee9}
     .ap-guide-search{border-top:1px solid #DCE4EE;background:#fff;padding:11px 12px 12px}
     .ap-guide-search label{display:block;color:#5B6B7C;font-size:10.5px;font-weight:600;margin:0 0 6px}
     .ap-guide-form{display:flex;gap:7px}
     .ap-guide-input{min-width:0;flex:1;border:1px solid #C9D3DF;border-radius:9px;padding:9px 10px;color:#22303E;font:400 12.5px/1.3 "Public Sans",system-ui,sans-serif}
-    .ap-guide-input:focus{outline:2px solid #1D6FE0;outline-offset:1px;border-color:#1D6FE0}
-    .ap-guide-submit{border:0;border-radius:9px;background:#1D6FE0;color:#fff;width:39px;display:grid;place-items:center;cursor:pointer}
-    .ap-guide-submit:hover{background:#134FA8}
+    .ap-guide-input:focus{outline:2px solid #0e756c;outline-offset:1px;border-color:#0e756c}
+    .ap-guide-submit{border:0;border-radius:9px;background:#0e756c;color:#fff;width:39px;display:grid;place-items:center;cursor:pointer}
+    .ap-guide-submit:hover{background:#095a54}
     .ap-guide-submit svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2}
     @media(max-width:520px){.ap-guide{right:8px;bottom:72px;width:calc(100vw - 16px);max-height:calc(100vh - 82px)}.ap-guide-launcher{right:14px;bottom:14px}.ap-guide-launcher span{display:none}.ap-guide-launcher{width:50px;height:50px;padding:0;justify-content:center}.ap-guide-body{min-height:310px;padding:15px}.ap-guide-menu{gap:8px}.ap-guide-card{min-height:78px;padding:11px}}
     @media(max-width:350px){.ap-guide-menu,.ap-guide-role-grid{grid-template-columns:1fr}.ap-guide-title span{display:none}}
@@ -261,6 +266,7 @@
 
   function currentPage() {
     const name = window.location.pathname.split("/").pop() || "index.html";
+    if (name.includes("case-studies")) return "cases";
     if (name.includes("experience")) return "experience";
     if (name.includes("skills")) return "skills";
     if (name.includes("contact")) return "contact";
@@ -279,11 +285,12 @@
     const subject = encodeURIComponent("Senior Customer Success opportunity");
     const actions = {
       experience: { label: text.viewExperience, href: "experience.html" },
+      cases: { label: text.viewCases, href: "case-studies.html" },
       skills: { label: text.viewSkills, href: "skills.html" },
       cv: { label: text.downloadCv, href: "Aleksandar-Petrovic-CV.pdf" },
       email: { label: text.sendEmail, href: `mailto:${EMAIL}?subject=${subject}` },
       contact: { label: text.sendEmail, href: `mailto:${EMAIL}?subject=${subject}` },
-      linkedin: { label: text.openLinkedIn, href: "https://linkedin.com/in/aleksandar-petrovic", external: true }
+      linkedin: { label: text.openLinkedIn, href: "https://www.linkedin.com/in/aleksandar-petrovic-061552295/", external: true }
     };
     return (types || []).map(type => actions[type]).filter(Boolean);
   }

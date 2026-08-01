@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://csmaleksandarpetrovic.github.io/sitemap.xml
